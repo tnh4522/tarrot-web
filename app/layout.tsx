@@ -11,6 +11,11 @@ export const metadata: Metadata = {
     description: 'Nhận sự hướng dẫn từ vũ trụ qua bài Tarot và AI thông minh',
     type: 'website',
   },
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+  },
 }
 
 export default function RootLayout({

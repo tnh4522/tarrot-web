@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Navbar from '@/components/Navbar'
 import DeckShuffle from '@/components/DeckShuffle'
 import TarotCardComponent from '@/components/TarotCard'
 import AIReadingResult from '@/components/AIReadingResult'
 import Encyclopedia from '@/components/Encyclopedia'
 import ReadingHistory, { saveReading } from '@/components/ReadingHistory'
+import OnboardingTour from '@/components/OnboardingTour'
 import { SPREADS } from '@/data/spreads'
 import {
   Spread,
@@ -37,6 +38,23 @@ export default function HomePage() {
   const [drawnCards, setDrawnCards] = useState<DrawnCard[]>([])
   const [reading, setReading] = useState<ReadingResponse | null>(null)
   const [isLoadingReading, setIsLoadingReading] = useState(false)
+
+  // Tour state
+  const [isTourOpen, setIsTourOpen] = useState(false)
+
+  // Auto show tour for first-time visitors
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const tourCompleted = localStorage.getItem('mystic-tarot-tour-completed')
+      if (!tourCompleted) {
+        // Small delay to let initial DOM load smoothly
+        const timer = setTimeout(() => {
+          setIsTourOpen(true)
+        }, 800)
+        return () => clearTimeout(timer)
+      }
+    }
+  }, [])
 
   // Settings
   const [apiKey, setApiKey] = useState('')
@@ -121,7 +139,18 @@ export default function HomePage() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Navbar activeTab={activeTab} onTabChange={setActiveTab} />
+      <Navbar
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        onOpenTour={() => setIsTourOpen(true)}
+      />
+
+      <OnboardingTour
+        isOpen={isTourOpen}
+        onClose={() => setIsTourOpen(false)}
+        activeTab={activeTab}
+        onSwitchTab={setActiveTab}
+      />
 
       <main style={{ flex: 1 }}>
         {/* ============================

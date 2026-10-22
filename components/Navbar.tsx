@@ -7,9 +7,10 @@ type Tab = 'reading' | 'encyclopedia' | 'history' | 'settings'
 interface NavbarProps {
   activeTab: Tab
   onTabChange: (tab: Tab) => void
+  onOpenTour?: () => void
 }
 
-export default function Navbar({ activeTab, onTabChange }: NavbarProps) {
+export default function Navbar({ activeTab, onTabChange, onOpenTour }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   const tabs: { id: Tab; label: string; icon: string }[] = [
@@ -126,6 +127,40 @@ export default function Navbar({ activeTab, onTabChange }: NavbarProps) {
               <span>{tab.label}</span>
             </button>
           ))}
+
+          {onOpenTour && (
+            <button
+              id="nav-btn-tour"
+              onClick={onOpenTour}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 12px',
+                marginLeft: '8px',
+                borderRadius: '20px',
+                border: '1px solid rgba(212, 160, 23, 0.4)',
+                background: 'rgba(212, 160, 23, 0.1)',
+                color: 'var(--color-gold-light)',
+                cursor: 'pointer',
+                fontFamily: 'var(--font-ui)',
+                fontSize: '13px',
+                fontWeight: 500,
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(212, 160, 23, 0.2)'
+                e.currentTarget.style.borderColor = 'rgba(212, 160, 23, 0.8)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(212, 160, 23, 0.1)'
+                e.currentTarget.style.borderColor = 'rgba(212, 160, 23, 0.4)'
+              }}
+            >
+              <span>🧭</span>
+              <span>Hướng Dẫn</span>
+            </button>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -188,6 +223,34 @@ export default function Navbar({ activeTab, onTabChange }: NavbarProps) {
               <span>{tab.label}</span>
             </button>
           ))}
+
+          {onOpenTour && (
+            <button
+              onClick={() => {
+                onOpenTour()
+                setMobileOpen(false)
+              }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                padding: '12px 16px',
+                borderRadius: '8px',
+                border: '1px solid rgba(212, 160, 23, 0.4)',
+                background: 'rgba(212, 160, 23, 0.1)',
+                color: 'var(--color-gold-light)',
+                cursor: 'pointer',
+                fontFamily: 'var(--font-ui)',
+                fontSize: '15px',
+                textAlign: 'left',
+                width: '100%',
+                marginTop: '4px',
+              }}
+            >
+              <span style={{ fontSize: '18px' }}>🧭</span>
+              <span>Hướng Dẫn Từng Bước</span>
+            </button>
+          )}
         </div>
       )}
 
