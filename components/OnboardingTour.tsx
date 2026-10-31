@@ -407,7 +407,7 @@ function calculateDialogPosition(
   const dialogEstHeight = 230
 
   // Calculate centered horizontal placement relative to target
-  let left = Math.max(
+  const left = Math.max(
     16,
     Math.min(viewportWidth - dialogWidth - 16, rect.left + rect.width / 2 - dialogWidth / 2)
   )

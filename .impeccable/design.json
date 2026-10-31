@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-31T12:35:00.000Z",
+  "title": "Design System: MysticTarot AI",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Astral Violet",
+        "canonical": "#6d28d9",
+        "tonalRamp": ["#1e0b4a", "#2e1065", "#4c1d95", "#6d28d9", "#7c3aed", "#8b5cf6", "#a78bfa", "#ddd6fe"]
+      },
+      "primary-light": {
+        "role": "primary",
+        "displayName": "Violet Light",
+        "canonical": "#8b5cf6",
+        "tonalRamp": ["#2e1065", "#4c1d95", "#6d28d9", "#7c3aed", "#8b5cf6", "#a78bfa", "#c4b5fd", "#ede9fe"]
+      },
+      "secondary": {
+        "role": "secondary",
+        "displayName": "Celestial Gold",
+        "canonical": "#d4a017",
+        "tonalRamp": ["#451a03", "#78350f", "#92400e", "#b45309", "#d4a017", "#f0c040", "#fde047", "#fef08a"]
+      },
+      "secondary-light": {
+        "role": "secondary",
+        "displayName": "Gold Light",
+        "canonical": "#f0c040",
+        "tonalRamp": ["#78350f", "#92400e", "#b45309", "#d4a017", "#f0c040", "#fde047", "#fef08a", "#fef9c3"]
+      },
+      "neutral-void": {
+        "role": "neutral",
+        "displayName": "Cosmic Void",
+        "canonical": "#05030f",
+        "tonalRamp": ["#05030f", "#0d0920", "#130f2a", "#1a1435", "#241c47", "#4b446a", "#9d93b8", "#e8e0f5"]
+      },
+      "neutral-surface": {
+        "role": "neutral",
+        "displayName": "Astral Surface",
+        "canonical": "#1a1435",
+        "tonalRamp": ["#0d0920", "#130f2a", "#1a1435", "#241c47", "#322763", "#51438a", "#9d93b8", "#e8e0f5"]
+      },
+      "neutral-text": {
+        "role": "neutral",
+        "displayName": "Celestial Text",
+        "canonical": "#e8e0f5",
+        "tonalRamp": ["#130f2a", "#241c47", "#4b446a", "#6b6480", "#9d93b8", "#c8c0db", "#e8e0f5", "#ffffff"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Sacred hero titles and main brand headings in Cinzel." },
+      "headline": { "displayName": "Headline", "purpose": "Step titles and modal headers in Cinzel." },
+      "title": { "displayName": "Title", "purpose": "Card names and spread types." },
+      "body": { "displayName": "Body", "purpose": "AI prophecy readings and card explanations in Crimson Text." },
+      "label": { "displayName": "Label", "purpose": "Buttons, tabs, inputs, and suit badges in Inter." }
+    },
+    "shadows": [
+      {
+        "name": "glow-violet",
+        "value": "0 0 20px rgba(109, 40, 217, 0.4), 0 0 60px rgba(109, 40, 217, 0.2)",
+        "purpose": "Active focus, button hover, and card selection halo."
+      },
+      {
+        "name": "glow-gold",
+        "value": "0 0 20px rgba(212, 160, 23, 0.4), 0 0 60px rgba(212, 160, 23, 0.2)",
+        "purpose": "Revealed card illumination, major arcana highlights, and completed states."
+      },
+      {
+        "name": "glass-card",
+        "value": "0 4px 24px rgba(0, 0, 0, 0.4), inset 0 0 40px rgba(109, 40, 217, 0.05)",
+        "purpose": "Floating glass containers and reading insight panels."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-tarot-flip",
+        "value": "cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "Ritualistic card flip 0.8s transition."
+      },
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Smooth exponential deceleration for button and modal transitions."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main call-to-action button with astral violet gradient and radiant glow on hover.",
+      "html": "<button class=\"ds-btn-primary\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z\"/></svg> BẮT ĐẦU TRẢI BÀI</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 28px; background: linear-gradient(135deg, #6d28d9, #7c3aed, #5b21b6); color: #ffffff; border: 1px solid rgba(139, 92, 246, 0.5); border-radius: 8px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.04em; cursor: pointer; transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(109, 40, 217, 0.5); } .ds-btn-primary:active { transform: translateY(0); } .ds-btn-primary:focus-visible { outline: 2px solid #a78bfa; outline-offset: 2px; } .ds-icon { flex-shrink: 0; }"
+    },
+    {
+      "name": "Celestial Gold Button",
+      "kind": "button",
+      "refersTo": "button-gold",
+      "description": "Secondary sacred button for ceremonial actions, reveals, and completions.",
+      "html": "<button class=\"ds-btn-gold\">XEM THÔNG ĐIỆP</button>",
+      "css": ".ds-btn-gold { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 28px; background: linear-gradient(135deg, #92400e, #d97706, #b45309); color: #fef3c7; border: 1px solid rgba(212, 160, 23, 0.5); border-radius: 8px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.04em; cursor: pointer; transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212, 160, 23, 0.4); } .ds-btn-gold:active { transform: translateY(0); } .ds-btn-gold:focus-visible { outline: 2px solid #f0c040; outline-offset: 2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Subtle border button for navigation and secondary controls.",
+      "html": "<button class=\"ds-btn-ghost\">Trải bài khác</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; background: transparent; color: #9d93b8; border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 14px; cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn-ghost:hover { border-color: #8b5cf6; color: #e8e0f5; background: rgba(109, 40, 217, 0.1); } .ds-btn-ghost:focus-visible { outline: 2px solid #8b5cf6; outline-offset: 2px; }"
+    },
+    {
+      "name": "Mystic Input",
+      "kind": "input",
+      "refersTo": "input-mystic",
+      "description": "Dark translucent glass input field for entering questions or user names.",
+      "html": "<input type=\"text\" class=\"ds-input-mystic\" placeholder=\"Nhập câu hỏi của bạn cho vũ trụ...\" />",
+      "css": ".ds-input-mystic { width: 100%; max-width: 400px; background: rgba(13, 9, 32, 0.6); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 8px; padding: 12px 16px; color: #e8e0f5; font-family: 'Inter', sans-serif; font-size: 15px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; box-sizing: border-box; } .ds-input-mystic:focus { border-color: rgba(139, 92, 246, 0.6); box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.15), 0 0 20px rgba(109, 40, 217, 0.1); } .ds-input-mystic::placeholder { color: #6b6480; }"
+    },
+    {
+      "name": "Tarot Card Back (Ritual)",
+      "kind": "card",
+      "refersTo": "card-tarot",
+      "description": "Tactile Tarot card back with sacred gold border, concentric geometric frame, and cosmic gradient.",
+      "html": "<div class=\"ds-card-back\"><div class=\"ds-card-pattern\"><div class=\"ds-card-star\"><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" fill=\"none\" stroke=\"#d4a017\" stroke-width=\"1.5\"><polygon points=\"12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2\"/></svg></div></div></div>",
+      "css": ".ds-card-back { width: 140px; height: 220px; border-radius: 12px; background: linear-gradient(135deg, #0d0920, #1a1435, #0d0920); border: 2px solid rgba(212, 160, 23, 0.4); display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 30px rgba(109, 40, 217, 0.3), 0 4px 20px rgba(0, 0, 0, 0.5); cursor: pointer; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-sizing: border-box; } .ds-card-back:hover { transform: translateY(-8px); border-color: rgba(212, 160, 23, 0.8); box-shadow: 0 0 24px rgba(212, 160, 23, 0.35), 0 8px 24px rgba(0, 0, 0, 0.6); } .ds-card-pattern { width: 88%; height: 88%; border: 1px solid rgba(212, 160, 23, 0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(109, 40, 217, 0.05) 10px, rgba(109, 40, 217, 0.05) 20px); } .ds-card-star { display: flex; align-items: center; justify-content: center; filter: drop-shadow(0 0 8px rgba(212, 160, 23, 0.5)); }"
+    },
+    {
+      "name": "Suit Badge",
+      "kind": "chip",
+      "refersTo": "badge-major",
+      "description": "Esoteric classification badge indicating the suit or arcana category of a card.",
+      "html": "<span class=\"ds-badge-major\"><svg viewBox=\"0 0 24 24\" width=\"12\" height=\"12\" fill=\"currentColor\"><circle cx=\"12\" cy=\"12\" r=\"5\"/></svg> Ẩn Chính</span>",
+      "css": ".ds-badge-major { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; font-family: 'Inter', sans-serif; background: rgba(109, 40, 217, 0.2); color: #c4b5fd; border: 1px solid rgba(109, 40, 217, 0.3); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Celestial Sanctuary",
+    "overview": "MysticTarot AI được kiến tạo như một chốn thiền định tinh tú giữa lòng không gian số. Giao diện mở ra bức màn vũ trụ sâu thẳm nơi hư không đen huyền bí (#05030f) được thắp sáng bởi ánh hào quang tím thiêng liêng (#6d28d9) và bụi vàng hoàng kim (#d4a017). Mỗi thao tác không đơn thuần là click chuột mà là một nghi thức chiêm nghiệm trang trọng, đem lại cảm giác bình an, thông suốt và thấu cảm sâu sắc.",
+    "keyCharacteristics": [
+      "Vũ trụ huyền bí & Tĩnh tại: Nền sao đêm với gradient tỏa nhẹ, giảm thiểu phân tâm thị giác để người dùng tĩnh tâm suy nghĩ câu hỏi.",
+      "Ánh hào quang dẫn lối (Luminous Glow): Ánh sáng tím và vàng được sử dụng có chủ đích để định hướng tiêu điểm và biểu thị trạng thái kích hoạt.",
+      "Nghi thức xúc giác sống động (Ritualistic & Tactile): Thẻ bài 3D có độ dày, bóng đổ thực tế, lật mở tự nhiên với nhịp điệu thong thả như trải nghiệm rút bài trực tiếp."
+    ],
+    "rules": [
+      {
+        "name": "The Sacred Gold Rule",
+        "body": "Màu vàng hoàng kim (#d4a017, #ffd700) là ánh sáng của sự khai minh và quý giá; chỉ được xuất hiện trên ≤15% diện tích màn hình.",
+        "section": "colors"
+      },
+      {
+        "name": "The Deep Cosmos Rule",
+        "body": "Nền tối luôn giữ chiều sâu sắc lạnh (#05030f, #0d0920), tuyệt đối không dùng màu xám xỉn hoặc đen tuyền thuần túy #000000.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tri-Script Doctrine",
+        "body": "Cinzel dành riêng cho tiêu đề và tên lá bài linh thiêng; Crimson Text dành cho lời giải AI và văn bản tiên tri; Inter chỉ dùng cho điều khiển giao diện, nút bấm và nhập liệu kỹ thuật.",
+        "section": "typography"
+      },
+      {
+        "name": "The Luminous Glass Rule",
+        "body": "Mọi hộp bề mặt nổi đều phải có backdrop-filter: blur(20px) và viền phát quang bán trong suốt. Không dùng đường viền đục màu solid 100%.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do duy trì nền vũ trụ sâu thẳm với sắc tím đen (#05030f, #0d0920) làm nền tảng cho mọi màn hình.",
+      "Do dùng Cinzel cho tiêu đề linh thiêng và Crimson Text cho phần luận giải tâm linh để tạo chất giọng trang trọng và đáng tin cậy.",
+      "Do đảm bảo mọi lá bài Tarot đều tuân thủ tỷ lệ vàng chữ nhật (~1:1.58) và có hiệu ứng lật mở 3D chân thực.",
+      "Do hiển thị rõ ràng trạng thái xuôi / ngược của lá bài kèm theo màu sắc biểu thị bộ ẩn."
+    ],
+    "donts": [
+      "Don't dùng màu nền trắng sáng hoặc xám sáng toàn màn hình làm mất đi không gian chiêm nghiệm của đền thờ tinh tú.",
+      "Don't dùng hiệu ứng rung giật, nảy tưng thô bạo (bounce) hay chuyển động giật gân ma quái làm mất đi sự bình yên của nghi thức.",
+      "Don't lạm dụng màu vàng chói lọi trên các mảng nền lớn; màu vàng chỉ dành cho ánh hào quang và chi tiết điểm xuyết.",
+      "Don't dùng chữ gradient trên các đoạn văn bản đọc dài (body copy); chỉ dùng màu chữ đặc (#e8e0f5) để bảo đảm độ dễ đọc tối đa."
+    ]
+  }
+}

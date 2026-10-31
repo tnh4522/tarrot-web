@@ -123,21 +123,40 @@ export default function Encyclopedia() {
         </div>
       </div>
 
-      {/* Card Grid */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
-          gap: '12px',
-        }}
-      >
-        {filtered.map((card) => (
-          <button
-            key={card.id}
-            id={`card-entry-${card.id}`}
-            onClick={() => setSelectedCard(card)}
-            style={{
-              background: 'rgba(13, 9, 32, 0.7)',
+      {/* Card Grid or Empty State */}
+      {filtered.length === 0 ? (
+        <div
+          className="glass-card animate-fade-in"
+          style={{
+            borderRadius: '16px',
+            padding: '48px 24px',
+            textAlign: 'center',
+            marginTop: '24px',
+          }}
+        >
+          <div style={{ fontSize: '3rem', marginBottom: '16px' }}>🔍</div>
+          <h3 className="font-heading" style={{ fontSize: '18px', color: '#f0c040', marginBottom: '8px' }}>
+            Không tìm thấy lá bài phù hợp
+          </h3>
+          <p className="font-body text-muted" style={{ fontSize: '15px' }}>
+            Không có lá bài nào khớp với từ khóa &ldquo;{search}&rdquo;. Hãy thử tìm với tên tiếng Việt, tiếng Anh hoặc đổi bộ ẩn.
+          </p>
+        </div>
+      ) : (
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+            gap: '12px',
+          }}
+        >
+          {filtered.map((card) => (
+            <button
+              key={card.id}
+              id={`card-entry-${card.id}`}
+              onClick={() => setSelectedCard(card)}
+              style={{
+                background: 'rgba(13, 9, 32, 0.7)',
               border: `1px solid ${SUIT_COLORS[card.suit]}30`,
               borderRadius: '12px',
               padding: '16px 12px',
@@ -195,6 +214,7 @@ export default function Encyclopedia() {
           </button>
         ))}
       </div>
+      )}
 
       {/* Card Detail Modal */}
       {selectedCard && (

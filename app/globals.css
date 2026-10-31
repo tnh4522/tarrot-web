@@ -15,10 +15,12 @@
   --color-rose: #e11d48;
   --color-teal: #0d9488;
   --color-text: #e8e0f5;
-  --color-text-muted: #9d93b8;
-  --color-text-dim: #6b6480;
-  --color-border: rgba(139, 92, 246, 0.2);
-  --color-border-gold: rgba(212, 160, 23, 0.3);
+  --color-text-muted: #b4abd0;
+  --color-text-dim: #9d93b8;
+  --color-border: rgba(139, 92, 246, 0.25);
+  --color-border-gold: rgba(212, 160, 23, 0.35);
+  --color-success: #4ade80;
+  --color-danger: #f87171;
   --font-heading: 'Cinzel', serif;
   --font-body: 'Crimson Text', serif;
   --font-ui: 'Inter', sans-serif;
@@ -149,26 +151,20 @@ body::after {
 .text-muted { color: var(--color-text-muted); }
 .text-dim { color: var(--color-text-dim); }
 
-/* ========== GRADIENT TEXT ========== */
+/* ========== METALLIC & LUMINOUS TEXT ========== */
 .gradient-text-gold {
-  background: linear-gradient(135deg, #d4a017, #ffd700, #f0c040, #d4a017);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #f0c040;
+  text-shadow: 0 0 16px rgba(212, 160, 23, 0.4), 0 0 2px rgba(255, 215, 0, 0.6);
 }
 
 .gradient-text-violet {
-  background: linear-gradient(135deg, #8b5cf6, #a78bfa, #c4b5fd, #8b5cf6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #c4b5fd;
+  text-shadow: 0 0 16px rgba(109, 40, 217, 0.4), 0 0 2px rgba(167, 139, 250, 0.6);
 }
 
 .gradient-text-mystic {
-  background: linear-gradient(135deg, #a78bfa, #ffd700, #a78bfa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #e8e0f5;
+  text-shadow: 0 0 18px rgba(167, 139, 250, 0.5), 0 0 30px rgba(212, 160, 23, 0.25);
 }
 
 /* ========== 3D CARD FLIP ========== */
@@ -464,7 +460,7 @@ textarea.input-mystic {
   background-size: 200% auto;
   animation: shimmer 3s linear infinite;
 }
-.animate-card-reveal { animation: card-reveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+.animate-card-reveal { animation: card-reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
 /* ========== SCROLLBAR ========== */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -584,10 +580,51 @@ textarea.input-mystic {
 .tooltip:hover::after { opacity: 1; }
 
 /* ========== MOBILE RESPONSIVENESS ========== */
+.fan-card-container {
+  --fan-offset: 22px;
+}
+
 @media (max-width: 640px) {
+  .fan-card-container {
+    --fan-offset: 12px;
+  }
   .card-scene { width: 100px; height: 160px; }
   .card-scene.large { width: 130px; height: 200px; }
   .deck-card { width: 60px; height: 94px; }
+}
+
+/* ========== ACCESSIBILITY & FOCUS RINGS ========== */
+:focus-visible {
+  outline: 2px solid var(--color-violet-glow);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 2px;
+}
+
+/* ========== PREFERS-REDUCED-MOTION ========== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  body::before {
+    animation: none !important;
+  }
+  
+  .card-3d {
+    transition: transform 0.1s linear !important;
+  }
 }
 
 /* ========== SELECTION ========== */

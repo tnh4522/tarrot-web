@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { SavedReading } from '@/types/tarot'
 
 const STORAGE_KEY = 'mystic-tarot-readings'
@@ -17,12 +17,9 @@ export function loadReadings(): SavedReading[] {
 }
 
 export default function ReadingHistory() {
-  const [readings, setReadings] = useState<SavedReading[]>([])
+  const [readings, setReadings] = useState<SavedReading[]>(() => loadReadings())
   const [selected, setSelected] = useState<SavedReading | null>(null)
-
-  useEffect(() => {
-    setReadings(loadReadings())
-  }, [])
+  const [isConfirmingClear, setIsConfirmingClear] = useState(false)
 
   const handleDelete = (id: string) => {
     const updated = readings.filter((r) => r.id !== id)
@@ -31,12 +28,11 @@ export default function ReadingHistory() {
     if (selected?.id === id) setSelected(null)
   }
 
-  const handleClearAll = () => {
-    if (confirm('Bạn có chắc muốn xóa toàn bộ lịch sử quẻ bài không?')) {
-      localStorage.removeItem(STORAGE_KEY)
-      setReadings([])
-      setSelected(null)
-    }
+  const handleConfirmClear = () => {
+    localStorage.removeItem(STORAGE_KEY)
+    setReadings([])
+    setSelected(null)
+    setIsConfirmingClear(false)
   }
 
   const formatDate = (dateStr: string) =>
@@ -82,14 +78,37 @@ export default function ReadingHistory() {
             {readings.length} quẻ đã lưu
           </p>
         </div>
-        <button
-          id="btn-clear-history"
-          className="btn-ghost"
-          onClick={handleClearAll}
-          style={{ color: '#f87171', borderColor: 'rgba(239, 68, 68, 0.3)' }}
-        >
-          🗑️ Xóa Tất Cả
-        </button>
+        {isConfirmingClear ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(239, 68, 68, 0.1)', padding: '6px 12px', borderRadius: '8px', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
+            <span style={{ fontSize: '13px', color: '#f87171', fontFamily: 'var(--font-ui)' }}>Xác nhận xóa hết?</span>
+            <button
+              type="button"
+              id="btn-confirm-clear"
+              className="btn-ghost"
+              onClick={handleConfirmClear}
+              style={{ color: '#f87171', borderColor: 'rgba(239, 68, 68, 0.6)', padding: '4px 10px', fontSize: '12px' }}
+            >
+              Xóa vĩnh viễn
+            </button>
+            <button
+              type="button"
+              className="btn-ghost"
+              onClick={() => setIsConfirmingClear(false)}
+              style={{ padding: '4px 10px', fontSize: '12px' }}
+            >
+              Hủy
+            </button>
+          </div>
+        ) : (
+          <button
+            id="btn-clear-history"
+            className="btn-ghost"
+            onClick={() => setIsConfirmingClear(true)}
+            style={{ color: '#f87171', borderColor: 'rgba(239, 68, 68, 0.3)' }}
+          >
+            🗑️ Xóa Tất Cả
+          </button>
+        )}
       </div>
 
       {/* Reading List */}

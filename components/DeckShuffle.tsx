@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { TarotCard, DrawnCard, SpreadPosition } from '@/types/tarot'
 import { TAROT_CARDS } from '@/data/tarot-cards'
 
@@ -12,13 +12,11 @@ interface DeckShuffleProps {
 
 export default function DeckShuffle({ cardCount, positions, onComplete }: DeckShuffleProps) {
   const [phase, setPhase] = useState<'intro' | 'shuffling' | 'picking' | 'done'>('intro')
-  const [shuffledDeck, setShuffledDeck] = useState<TarotCard[]>([])
   const [selectedCards, setSelectedCards] = useState<number[]>([])
   const [fanCards, setFanCards] = useState<{ card: TarotCard; index: number; angle: number; x: number }[]>([])
 
   const shuffle = useCallback(() => {
     const deck = [...TAROT_CARDS].sort(() => Math.random() - 0.5)
-    setShuffledDeck(deck)
     
     // Create fan display - show 20 cards spread in a fan
     const displayed = deck.slice(0, 20)
@@ -156,7 +154,13 @@ export default function DeckShuffle({ cardCount, positions, onComplete }: DeckSh
             </span>
           </div>
 
-          {/* Progress indicator */}
+          {/* Progress indicator & screen reader announcements */}
+          <div aria-live="polite" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)' }}>
+            {selectedCards.length === cardCount
+              ? 'Đã chọn đủ số lượng lá bài'
+              : `Đã chọn ${selectedCards.length} trên ${cardCount} lá bài`}
+          </div>
+
           <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '32px' }}>
             {Array.from({ length: cardCount }).map((_, i) => (
               <div
@@ -177,6 +181,7 @@ export default function DeckShuffle({ cardCount, positions, onComplete }: DeckSh
 
           {/* Fan of cards */}
           <div
+            className="fan-card-container"
             style={{
               position: 'relative',
               height: '180px',
@@ -190,13 +195,24 @@ export default function DeckShuffle({ cardCount, positions, onComplete }: DeckSh
               const isSelected = selectedCards.includes(i)
               const isDisabled = selectedCards.length >= cardCount && !isSelected
               return (
-                <div
+                <button
+                  type="button"
                   key={i}
                   id={`deck-card-${i}`}
+                  aria-label={`Lá bài số ${i + 1}${isSelected ? ', đã chọn' : ''}`}
+                  aria-pressed={isSelected}
+                  aria-disabled={isDisabled}
+                  tabIndex={isDisabled ? -1 : 0}
                   className={`deck-card ${isSelected ? 'selected' : ''}`}
                   onClick={() => !isDisabled && handleCardClick(i)}
+                  onKeyDown={(e) => {
+                    if (!isDisabled && (e.key === 'Enter' || e.key === ' ')) {
+                      e.preventDefault()
+                      handleCardClick(i)
+                    }
+                  }}
                   style={{
-                    left: `calc(50% + ${item.x}px - 40px)`,
+                    left: `calc(50% + (${i} - 9.5) * var(--fan-offset, 22px) - 40px)`,
                     bottom: '0',
                     transform: `rotate(${item.angle}deg)`,
                     transformOrigin: 'bottom center',
@@ -231,7 +247,7 @@ export default function DeckShuffle({ cardCount, positions, onComplete }: DeckSh
                       </div>
                     )}
                   </div>
-                </div>
+                </button>
               )
             })}
           </div>

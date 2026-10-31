@@ -37,7 +37,14 @@ export default function HomePage() {
   const [tone, setTone] = useState<AITone>('empathetic')
   const [drawnCards, setDrawnCards] = useState<DrawnCard[]>([])
   const [reading, setReading] = useState<ReadingResponse | null>(null)
+  const [readingError, setReadingError] = useState<string | null>(null)
   const [isLoadingReading, setIsLoadingReading] = useState(false)
+  const [toast, setToast] = useState<string | null>(null)
+
+  const showToast = (msg: string) => {
+    setToast(msg)
+    setTimeout(() => setToast(null), 3500)
+  }
 
   // Tour state
   const [isTourOpen, setIsTourOpen] = useState(false)
@@ -83,6 +90,7 @@ export default function HomePage() {
   const handleCardsDrawn = useCallback(async (cards: DrawnCard[]) => {
     setDrawnCards(cards)
     setStep('reveal')
+    setReadingError(null)
 
     // Short delay to show reveal animation
     setTimeout(async () => {
@@ -105,13 +113,21 @@ export default function HomePage() {
         const data = await res.json()
         if (data.error) throw new Error(data.error)
         setReading(data)
-      } catch (err) {
+      } catch (err: unknown) {
         console.error('Reading error:', err)
+        const errorMsg = err instanceof Error ? err.message : 'Không thể kết nối với trí tuệ nhân tạo'
+        setReadingError(errorMsg)
       } finally {
         setIsLoadingReading(false)
       }
     }, 1200)
   }, [question, userName, selectedSpread, tone, savedApiKey])
+
+  const handleRetry = useCallback(() => {
+    if (drawnCards.length > 0) {
+      handleCardsDrawn(drawnCards)
+    }
+  }, [drawnCards, handleCardsDrawn])
 
   const handleSaveReading = () => {
     if (!reading || !selectedSpread) return
@@ -125,7 +141,7 @@ export default function HomePage() {
       reading,
     }
     saveReading(saved)
-    alert('✅ Đã lưu quẻ bài thành công!')
+    showToast('Đã lưu quẻ bài vào nhật ký thành công!')
   }
 
   const handleNewReading = () => {
@@ -133,6 +149,7 @@ export default function HomePage() {
     setSelectedSpread(null)
     setDrawnCards([])
     setReading(null)
+    setReadingError(null)
     setQuestion('')
     setIsLoadingReading(false)
   }
@@ -243,6 +260,36 @@ export default function HomePage() {
                       onChange={(e) => setQuestion(e.target.value)}
                       rows={3}
                     />
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '10px', alignItems: 'center' }}>
+                      <span style={{ fontSize: '12px', color: 'var(--color-text-dim)', fontFamily: 'var(--font-ui)' }}>
+                        ✦ Gợi ý:
+                      </span>
+                      {[
+                        'Thông điệp hôm nay của tôi là gì?',
+                        'Định hướng công việc sắp tới?',
+                        'Chuyện tình cảm có chuyển biến gì?',
+                        'Lời khuyên để vượt qua khó khăn?',
+                      ].map((prompt) => (
+                        <button
+                          type="button"
+                          key={prompt}
+                          onClick={() => setQuestion(prompt)}
+                          style={{
+                            padding: '4px 10px',
+                            borderRadius: '16px',
+                            background: 'rgba(109, 40, 217, 0.15)',
+                            border: '1px solid rgba(139, 92, 246, 0.25)',
+                            color: 'var(--color-violet-glow)',
+                            fontSize: '12px',
+                            fontFamily: 'var(--font-ui)',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease',
+                          }}
+                        >
+                          {prompt}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
                   {/* Step 3: AI Tone */}
@@ -594,12 +641,14 @@ export default function HomePage() {
                   drawnCards={drawnCards}
                   reading={reading}
                   isLoading={isLoadingReading}
+                  error={readingError}
                   question={question}
                   userName={userName}
                   apiKey={savedApiKey}
                   tone={tone}
                   onSave={handleSaveReading}
                   onNewReading={handleNewReading}
+                  onRetry={handleRetry}
                 />
               </div>
             )}
@@ -791,6 +840,37 @@ export default function HomePage() {
           ✦ MysticTarot AI · Xem Bói Tarot Online · Powered by Google Gemini ✦
         </p>
       </footer>
+
+      {/* Toast Notification */}
+      {toast && (
+        <div
+          role="status"
+          aria-live="polite"
+          style={{
+            position: 'fixed',
+            bottom: '24px',
+            right: '24px',
+            zIndex: 1000,
+            background: 'rgba(26, 20, 53, 0.95)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            border: '1px solid rgba(212, 160, 23, 0.6)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 160, 23, 0.25)',
+            borderRadius: '8px',
+            padding: '14px 20px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            color: '#fef3c7',
+            fontFamily: 'var(--font-ui)',
+            fontSize: '14px',
+          }}
+          className="animate-fade-in-up"
+        >
+          <span style={{ fontSize: '18px' }}>✨</span>
+          <span>{toast}</span>
+        </div>
+      )}
     </div>
   )
 }

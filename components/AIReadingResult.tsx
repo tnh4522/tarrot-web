@@ -8,24 +8,28 @@ interface AIReadingResultProps {
   drawnCards: DrawnCard[]
   reading: ReadingResponse | null
   isLoading: boolean
+  error?: string | null
   question: string
   userName: string
   apiKey?: string
   tone: AITone
   onSave?: () => void
   onNewReading?: () => void
+  onRetry?: () => void
 }
 
 export default function AIReadingResult({
   drawnCards,
   reading,
   isLoading,
+  error,
   question,
   userName,
   apiKey,
   tone,
   onSave,
   onNewReading,
+  onRetry,
 }: AIReadingResultProps) {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
   const [chatInput, setChatInput] = useState('')
@@ -57,7 +61,7 @@ export default function AIReadingResult({
           drawnCards,
           tone,
           apiKey,
-          context: reading,
+          context: { reading, originalQuestion: question },
           chatHistory: chatMessages,
           isFollowUp: true,
         }),
@@ -163,7 +167,75 @@ export default function AIReadingResult({
     )
   }
 
-  if (!reading) return null
+  if (!reading) {
+    return (
+      <div
+        className="glass-card animate-fade-in-up"
+        style={{
+          borderRadius: '16px',
+          padding: '32px 24px',
+          border: '1px solid rgba(248, 113, 113, 0.4)',
+          background: 'rgba(26, 20, 53, 0.85)',
+          textAlign: 'center',
+          maxWidth: '700px',
+          margin: '0 auto',
+        }}
+      >
+        <div style={{ fontSize: '3rem', marginBottom: '16px' }}>🌌</div>
+        <h3 className="font-heading" style={{ fontSize: '20px', color: '#f87171', marginBottom: '12px' }}>
+          Vũ Trụ Tạm Thời Gián Đoạn Kết Nối
+        </h3>
+        <p className="font-body text-muted" style={{ fontSize: '16px', marginBottom: '24px', lineHeight: 1.7 }}>
+          {error || 'Không thể tạo lời giải đoán tự động từ AI lúc này.'}
+          <br />
+          Dù vậy, năng lượng từ những lá bài bạn đã rút vẫn mang thông điệp riêng. Bạn có thể xem nhanh ý nghĩa cơ bản bên dưới hoặc thử kết nối lại.
+        </p>
+
+        {/* Display drawn cards basic offline interpretation */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '28px', textAlign: 'left' }}>
+          {drawnCards.map((dc, i) => (
+            <div
+              key={i}
+              style={{
+                padding: '16px',
+                borderRadius: '10px',
+                background: 'rgba(13, 9, 32, 0.7)',
+                border: '1px solid rgba(139, 92, 246, 0.2)',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
+                <span style={{ fontWeight: 600, color: '#f0c040', fontFamily: 'var(--font-heading)', fontSize: '15px' }}>
+                  {dc.position.label}: {dc.card.nameVi} ({dc.card.name})
+                </span>
+                <span className={`badge badge-${dc.card.suit}`}>
+                  {dc.isReversed ? 'Lá Ngược 🔄' : 'Lá Xuôi ⬆️'}
+                </span>
+              </div>
+              <p style={{ fontSize: '14px', color: 'var(--color-text)', marginBottom: '6px', lineHeight: 1.6 }}>
+                {dc.isReversed ? dc.card.reversedMeaning : dc.card.uprightMeaning}
+              </p>
+              <p style={{ fontSize: '13px', color: 'var(--color-text-dim)', fontStyle: 'italic' }}>
+                ✦ Lời khuyên: {dc.card.advice}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          {onRetry && (
+            <button type="button" className="btn-primary" onClick={onRetry}>
+              Thử Kết Nối Lại 🔄
+            </button>
+          )}
+          {onNewReading && (
+            <button type="button" className="btn-ghost" onClick={onNewReading}>
+              Bói Quẻ Bài Mới
+            </button>
+          )}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div
